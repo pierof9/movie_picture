@@ -50,6 +50,11 @@ jobs:
       - name: Update Browserslist
         working-directory: starter/frontend
         run: npx update-browserslist-db@latest &
+      - name: Clean npm cache and remove node_modules
+        working-directory: starter/frontend
+        run: |
+          npm cache clean --force
+          rm -rf node_modules
       - name: Install dependencies
         working-directory: starter/frontend
         run: |
