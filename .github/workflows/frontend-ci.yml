@@ -15,7 +15,12 @@ jobs:
       - name: Use Node.js 
         uses: actions/setup-node@v4
         with:
-          node-version: '18.14' # comes from .nvmrc
+          node-version: '18.14.2' # comes from .nvmrc
+      - name: Clean npm cache and remove node_modules
+        working-directory: starter/frontend
+        run: |
+          npm cache clean --force
+          rm -rf node_modules
       - name: Install dependencies
         working-directory: starter/frontend
         run: npm ci
@@ -30,7 +35,12 @@ jobs:
       - name: Use Node.js 
         uses: actions/setup-node@v4
         with:
-          node-version: '18.14' # comes from .nvmrc
+          node-version: '18.14.2' # comes from .nvmrc
+      - name: Clean npm cache and remove node_modules
+        working-directory: starter/frontend
+        run: |
+          npm cache clean --force
+          rm -rf node_modules
       - name: Install dependencies
         working-directory: starter/frontend
         run: npm ci
@@ -50,11 +60,11 @@ jobs:
       # - name: Update Browserslist
       #   working-directory: starter/frontend
       #   run: npx update-browserslist-db@latest &
-      # - name: Clean npm cache and remove node_modules
-      #   working-directory: starter/frontend
-      #   run: |
-      #     npm cache clean --force
-      #     rm -rf node_modules
+      - name: Clean npm cache and remove node_modules
+        working-directory: starter/frontend
+        run: |
+          npm cache clean --force
+          rm -rf node_modules
       - name: Install dependencies
         working-directory: starter/frontend
         run: npm ci
