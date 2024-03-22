@@ -52,4 +52,6 @@ jobs:
         run: npm ci
       - name: Build Frontend
         working-directory: starter/frontend
-        run: npm run build
+        run: |   # change for bug
+          npx update-browserslist-db@latest
+          npm run build
