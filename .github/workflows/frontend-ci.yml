@@ -57,9 +57,7 @@ jobs:
           rm -rf node_modules
       - name: Install dependencies
         working-directory: starter/frontend
-        run: |
-          npm install
-          npm ci
+        run: npm ci
       - name: Build Frontend
         working-directory: starter/frontend
         run: npm run build
