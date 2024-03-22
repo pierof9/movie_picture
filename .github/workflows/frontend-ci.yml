@@ -47,9 +47,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18.14' # comes from .nvmrc
-      # - name: Update Browserslist
-      #   working-directory: starter/frontend
-      #   run: npx update-browserslist-db@latest &
+      - name: Update Browserslist
+        working-directory: starter/frontend
+        run: npx update-browserslist-db@latest &
       - name: Install dependencies
         working-directory: starter/frontend
         run: npm ci
