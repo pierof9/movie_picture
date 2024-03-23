@@ -1,0 +1,41 @@
+name: Frontend CD
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'frontend/**'
+  workflow_dispatch:  # This is for allowing the manual trigger (in addition to push)
+
+defaults:
+  run:
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        working-directory: starter/frontend
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.14.2'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run test
+      - run: |
+          npm install
+          npm test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Run build
+        run: echo '..building the image..'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy
+        run: echo '..deploying..'

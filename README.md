@@ -12,7 +12,11 @@ On top of that, my code enriches it, in order to meet the project exam.
 
 ## Continuous Integration
 ### Back-End
-...
+Create the two flows:
+1. backend-ci.yml
+2. frontend-ci.yml
+
+The command `actions/checkout@` is important to initialize the repository. If you don't put it, it doesn't find you directory.
 
 ## Continuous Deployment
 ### Terraform commands
