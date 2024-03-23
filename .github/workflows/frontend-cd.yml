@@ -10,7 +10,6 @@ on:
 defaults:
   run:
     steps:
-      - uses: actions/checkout@v4
       - name: Use Node.js
         working-directory: starter/frontend
         uses: actions/setup-node@v4
@@ -21,6 +20,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Run test
       - run: |
           npm install
@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
+      - uses: actions/checkout@v4
       - name: Run build
         run: echo '..building the image..'
 
@@ -37,5 +38,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v4
       - name: Deploy
         run: echo '..deploying..'
