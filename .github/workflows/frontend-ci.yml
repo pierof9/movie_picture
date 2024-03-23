@@ -23,7 +23,7 @@ jobs:
       #     rm -rf node_modules
       - name: Install dependencies
         working-directory: starter/frontend
-        run: npm ci
+        run: npm install
       - name: Run Linter
         working-directory: starter/frontend
         run: npm run lint -- --fix
@@ -43,7 +43,7 @@ jobs:
       #     rm -rf node_modules
       - name: Install dependencies
         working-directory: starter/frontend
-        run: npm ci
+        run: npm install
       - name: Run Tests
         working-directory: starter/frontend
         run: npm test
@@ -67,7 +67,7 @@ jobs:
       #     rm -rf node_modules
       - name: Install dependencies
         working-directory: starter/frontend
-        run: npm ci
+        run: npm install
       - name: Build Frontend
         working-directory: starter/frontend
         run: npm run build
