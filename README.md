@@ -19,6 +19,9 @@ Create the two flows:
 The command `actions/checkout@` is important to initialize the repository. If you don't put it, it doesn't find you directory.
 
 ## Continuous Deployment
+
+1. You need to create a user. Go to IAM --> 'piero-cicd'
+
 ### Terraform commands
 - `terraform init`
 - `terraform plan`
