@@ -14,7 +14,9 @@ jobs:
     - name: Check if /usr/bin/bash exists
       run: |
         pwd
-        ls
+        ls .
+        ls starter
+        ls starter/backend
   lint:
     runs-on: ubuntu-latest
     steps:
