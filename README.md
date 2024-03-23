@@ -21,6 +21,12 @@ The command `actions/checkout@` is important to initialize the repository. If yo
 ## Continuous Deployment
 
 1. You need to create a user. Go to IAM --> 'piero-cicd'
+2. Create the access with Key/Secret pair, and store the credentials.
+3. Create the secrets in GitHub, named:
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_REGION
+These will contain the credentials you've downloaded during the IAM user creation.
 
 ### Terraform commands
 - `terraform init`
