@@ -63,5 +63,4 @@ jobs:
     steps:
       - name: Build Image
         working-directory: starter/backend
-        run: 
-          - docker build -t backend .  # Assuming you build a Docker image
+        run: docker build -t backend .  # Assuming you build a Docker image
