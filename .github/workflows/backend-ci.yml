@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check if /usr/bin/bash exists
-      working-directory: starter/backend
+      working-directory: ../../starter/backend
       run: ls /usr/bin/bash
   lint:
     runs-on: ubuntu-latest
