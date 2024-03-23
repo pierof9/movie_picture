@@ -20,7 +20,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pipenv
-          pipenv install --dev --skip-lock  # Install dev dependencies
+          pipenv install --system --deploy
 
       - name: Lint with flake8
         run: |
@@ -42,7 +42,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pipenv
-          pipenv install --dev --skip-lock  # Install dev dependencies
+          pipenv install --system --deploy
 
       - name: Run test
         working-directory: starter/backend
