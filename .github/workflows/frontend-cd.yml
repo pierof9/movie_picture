@@ -13,11 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
-        working-directory: starter/frontend
         uses: actions/setup-node@v4
         with:
           node-version: '18.14.2'
       - name: Run test
+        working-directory: starter/frontend
         run: |
           npm install
           npm test
@@ -28,11 +28,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
-        working-directory: starter/frontend
         uses: actions/setup-node@v4
         with:
           node-version: '18.14.2'
       - name: Run build
+        working-directory: starter/frontend
         run: echo '..building the image..'
 
   deploy:
@@ -41,9 +41,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
-        working-directory: starter/frontend
         uses: actions/setup-node@v4
         with:
           node-version: '18.14.2'
       - name: Deploy
+        working-directory: starter/frontend
         run: echo '..deploying..'
