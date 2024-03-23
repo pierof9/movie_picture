@@ -11,6 +11,8 @@ jobs:
   check_shell_availability:
     runs-on: ubuntu-latest
     steps:
+    - name: Check out source repository
+      uses: actions/checkout@v4
     - name: Check if /usr/bin/bash exists
       run: |
         pwd
@@ -20,8 +22,10 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out source repository
+        uses: actions/checkout@v4
       - name: Set up Python 3.10
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
@@ -42,8 +46,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out source repository
+        uses: actions/checkout@v4
       - name: Set up Python 3.10
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
