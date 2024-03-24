@@ -20,7 +20,7 @@ The command `actions/checkout@` is important to initialize the repository. If yo
 
 ## Continuous Deployment
 
-1. You need to create a user. Go to IAM --> 'piero-cicd'
+1. You need to create a user. Go to IAM --> `github-action-user`
 2. Create the access with Key/Secret pair, and store the credentials.
 3. Create the secrets in GitHub, named:
 - AWS_ACCESS_KEY_ID
