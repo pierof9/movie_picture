@@ -108,6 +108,13 @@ jobs:
         working-directory: starter/backend
         run: aws eks update-kubeconfig --name cluster --region us-east-1
 
+      - name: Run init.sh
+        run:  |
+          chmod +x init.sh 
+          ./init.sh || true
+          kubectl config view
+        working-directory: setup
+
       - name: Deploy to EKS
         env:
             REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -115,6 +122,5 @@ jobs:
             IMAGE_TAG: ${{ github.sha }}
         working-directory: starter/backend/k8s
         run: |
-          echo 'pwd'
           kustomize edit set image $REPOSITORY=$REGISTRY/$REPOSITORY:$IMAGE_TAG
           kustomize build | kubectl apply -f -
