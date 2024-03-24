@@ -113,8 +113,8 @@ jobs:
             REGISTRY: ${{ steps.login-ecr.outputs.registry }}
             REPOSITORY: backend
             IMAGE_TAG: ${{ github.sha }}
-        working-directory: starter/backend
+        working-directory: starter/backend/k8s
         run: |
-          cd k8s
+          echo 'pwd'
           kustomize edit set image $REPOSITORY=$REGISTRY/$REPOSITORY:$IMAGE_TAG
           kustomize build | kubectl apply -f -
