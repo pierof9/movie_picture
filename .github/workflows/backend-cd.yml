@@ -61,11 +61,15 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+
       - name: Run build
+        env:
+          REPOSITORY: backend
+          IMAGE_TAG: ${{ github.sha }}
         working-directory: starter/backend
         run: |
-          docker build -t backend:${GITHUB_SHA} . 
-          echo 'image built'
+          docker build -t $REPOSITORY:$IMAGE_TAG .
+          echo 'Image built'
 
   deploy:
     runs-on: ubuntu-latest
@@ -77,15 +81,40 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+
       - name: Authenticate to AWS
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Push image to ECR
-        run: echo "..pushing image to ECR.."
+      
+      - name: Login into AWS
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Tag and Deploy image to ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: backend
+          IMAGE_TAG: ${{ github.sha }}
+        working-directory: starter/backend
+        run: |
+          docker tag $REPOSITORY:$IMAGE_TAG $REGISTRY/REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo 'Image tagged and pushed to ECR'
+
+      - name: Prepare EKS
+        working-directory: starter/backend
+        run: aws eks update-kubeconfig --name cluster --region us-east-1
 
       - name: Deploy to EKS
-        working-directory: starter/frontend
-        run: echo '..deploying to EKS..'
+        env:
+            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            REPOSITORY: backend
+            IMAGE_TAG: ${{ github.sha }}
+        working-directory: starter/backend
+        run: |
+          cd starter/backend/k8s
+          kustomize edit set image $REPOSITORY=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          kustomize build | kubectl apply -f -

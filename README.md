@@ -28,8 +28,16 @@ The command `actions/checkout@` is important to initialize the repository. If yo
 - AWS_REGION
 These will contain the credentials you've downloaded during the IAM user creation.
 
+export AWS_ACCESS_KEY_ID=...
+export AWS_SECRET_ACCESS_KEY=..
+export AWS_SESSION_TOKEN=... - probaly not needed.
+
 ### Terraform commands
 - `terraform init`
 - `terraform plan`
 - `terraform apply`
 - `terraform destroy`
+
+If you already have the "github-action-user" created manually, then you can remove the creation from the terraform.
+
+Probably with the AdministratorAccess Policy I should be able to do everything already.
