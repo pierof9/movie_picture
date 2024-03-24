@@ -115,13 +115,16 @@ jobs:
           kubectl config view
         working-directory: setup
 
-      - name: Deploy to EKS
+      - name: Set docker image
+        working-directory: starter/backend/k8s
         env:
-            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            REPOSITORY: backend
-            IMAGE_TAG: ${{ github.sha }}
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{env.ECR_REPO}}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          kustomize edit set image backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+      - name: Deploy to kubernetes
         working-directory: starter/backend/k8s
         run: |
-          kustomize edit set image $REPOSITORY=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-          kustomize build
-          kubectl apply -f -
+          kustomize build | kubectl apply -f -
