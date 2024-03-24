@@ -106,7 +106,9 @@ jobs:
 
       - name: Prepare EKS
         working-directory: starter/backend
-        run: aws eks update-kubeconfig --name cluster --region us-east-1
+        run: |
+          aws eks update-kubeconfig --name cluster --region us-east-1
+          aws eks update-cluster-config --name cluster --access-config authenticationMode=API_AND_CONFIG_MAP
 
       - name: Run init.sh
         run:  |
