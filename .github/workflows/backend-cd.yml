@@ -119,7 +119,7 @@ jobs:
         working-directory: starter/backend/k8s
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: ${{env.ECR_REPO}}
+          REPOSITORY: backend
           IMAGE_TAG: ${{ github.sha }}
         run: |
           kustomize edit set image backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
