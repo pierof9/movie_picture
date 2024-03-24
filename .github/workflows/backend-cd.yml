@@ -129,4 +129,4 @@ jobs:
       - name: Deploy to kubernetes
         working-directory: starter/backend/k8s
         run: |
-          kustomize build | kubectl apply -f -
+          kubectl kustomize build | kubectl apply -f -
