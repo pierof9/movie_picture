@@ -110,13 +110,6 @@ jobs:
           aws eks update-kubeconfig --name cluster --region us-east-1
           aws eks update-cluster-config --name cluster --access-config authenticationMode=API_AND_CONFIG_MAP
 
-      - name: Run init.sh
-        run:  |
-          chmod +x init.sh 
-          ./init.sh || true
-          kubectl config view
-        working-directory: setup
-
       - name: Set docker image
         working-directory: starter/backend/k8s
         env:
