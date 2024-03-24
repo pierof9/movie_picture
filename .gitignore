@@ -2,3 +2,4 @@ AWS_AccessKeys.txt
 setup/terraform/.terraform.lock.hcl
 setup/terraform/terraform.tfstate
 setup/terraform/terraform.tfstate.backup
+setup/terraform/.terraform
