@@ -100,7 +100,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         working-directory: starter/backend
         run: |
-          docker tag $REPOSITORY:$IMAGE_TAG $REGISTRY/REPOSITORY:$IMAGE_TAG
+          docker tag $REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
           echo 'Image tagged and pushed to ECR'
 
