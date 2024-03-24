@@ -68,8 +68,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         working-directory: starter/backend
         run: |
-          docker build -t $REPOSITORY:$IMAGE_TAG .
-          echo 'Image built'
+          echo 'Image built in next job'
 
   deploy:
     runs-on: ubuntu-latest
@@ -100,6 +99,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         working-directory: starter/backend
         run: |
+          docker build -t $REPOSITORY:$IMAGE_TAG .
           docker tag $REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
           echo 'Image tagged and pushed to ECR'
