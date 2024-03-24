@@ -115,6 +115,6 @@ jobs:
             IMAGE_TAG: ${{ github.sha }}
         working-directory: starter/backend
         run: |
-          cd starter/backend/k8s
+          cd k8s
           kustomize edit set image $REPOSITORY=$REGISTRY/$REPOSITORY:$IMAGE_TAG
           kustomize build | kubectl apply -f -
