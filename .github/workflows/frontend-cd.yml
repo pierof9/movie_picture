@@ -60,8 +60,7 @@ jobs:
       - name: Run build
         working-directory: starter/frontend
         run: |
-          docker build -t frontend:${GITHUB_SHA} . 
-          echo 'image built'
+          echo 'Image built in next job'
 
   deploy:
     runs-on: ubuntu-latest
@@ -73,15 +72,46 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18.14.2'
+
       - name: Authenticate to AWS
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Push image to ECR
-        run: echo "..pushing image to ECR.."
+      
+      - name: Login into AWS
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Deploy to EKS
+      - name: Tag and Deploy image to ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: frontend
+          IMAGE_TAG: ${{ github.sha }}
+          REACT_APP_MOVIE_API_URL: a213309367f1544dcacc1c410b62fa4b-1016477180.us-east-1.elb.amazonaws.com
         working-directory: starter/frontend
-        run: echo '..deploying to EKS..'
+        run: |
+          docker build --build-arg REACT_APP_MOVIE_API_URL=$REACT_API_URL -t $REPOSITORY:$IMAGE_TAG .
+          docker tag $REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo 'Image tagged and pushed to ECR'
+
+      - name: Prepare EKS
+        working-directory: starter/frontend
+        run: |
+          aws eks update-kubeconfig --name cluster --region us-east-1
+
+      - name: Set docker image
+        working-directory: starter/frontend/k8s
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: frontend
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+      - name: Deploy to kubernetes
+        working-directory: starter/frontend/k8s
+        run: |
+          kubectl kustomize | kubectl apply -f -
